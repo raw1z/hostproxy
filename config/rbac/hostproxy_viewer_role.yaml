@@ -1,0 +1,27 @@
+# permissions for end users to view hostproxies.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: hostproxy-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: hostproxy
+    app.kubernetes.io/part-of: hostproxy
+    app.kubernetes.io/managed-by: kustomize
+  name: hostproxy-viewer-role
+rules:
+- apiGroups:
+  - crds.raw1z.fr.raw1z.fr
+  resources:
+  - hostproxies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - crds.raw1z.fr.raw1z.fr
+  resources:
+  - hostproxies/status
+  verbs:
+  - get

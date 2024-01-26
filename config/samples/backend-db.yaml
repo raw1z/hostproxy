@@ -1,0 +1,7 @@
+apiVersion: crds.raw1z.fr.raw1z.fr/v1
+kind: Hostproxy
+metadata:
+  name: backend-db
+spec:
+  hostPort: 5432
+  clusterPort: 5432

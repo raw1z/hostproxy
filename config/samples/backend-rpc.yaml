@@ -1,0 +1,7 @@
+apiVersion: crds.raw1z.fr.raw1z.fr/v1
+kind: Hostproxy
+metadata:
+  name: backend-rpc
+spec:
+  hostPort: 10541
+  clusterPort: 80

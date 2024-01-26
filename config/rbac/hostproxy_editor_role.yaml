@@ -1,0 +1,31 @@
+# permissions for end users to edit hostproxies.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: hostproxy-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: hostproxy
+    app.kubernetes.io/part-of: hostproxy
+    app.kubernetes.io/managed-by: kustomize
+  name: hostproxy-editor-role
+rules:
+- apiGroups:
+  - crds.raw1z.fr.raw1z.fr
+  resources:
+  - hostproxies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - crds.raw1z.fr.raw1z.fr
+  resources:
+  - hostproxies/status
+  verbs:
+  - get
