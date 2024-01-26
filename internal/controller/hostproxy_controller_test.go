@@ -32,7 +32,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	crdsraw1zfrv1 "github.com/raw1z/hostproxy/api/v1"
+	networkingv1 "github.com/raw1z/hostproxy/api/v1"
 )
 
 var _ = Describe("Hostproxy controller", func() {
@@ -53,7 +53,7 @@ var _ = Describe("Hostproxy controller", func() {
 			Name:      HostproxyName,
 			Namespace: HostproxyName,
 		}
-		hostproxy := &crdsraw1zfrv1.Hostproxy{}
+		hostproxy := &networkingv1.Hostproxy{}
 
 		BeforeEach(func() {
 			By("Creating the Namespace to perform the tests")
@@ -69,12 +69,12 @@ var _ = Describe("Hostproxy controller", func() {
 			if err != nil && errors.IsNotFound(err) {
 				// Let's mock our custom resource at the same way that we would
 				// apply on the cluster the manifest under config/samples
-				hostproxy := &crdsraw1zfrv1.Hostproxy{
+				hostproxy := &networkingv1.Hostproxy{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      HostproxyName,
 						Namespace: namespace.Name,
 					},
-					Spec: crdsraw1zfrv1.HostproxySpec{
+					Spec: networkingv1.HostproxySpec{
 						HostPort:    10541,
 						ClusterPort: 80,
 					},
@@ -87,7 +87,7 @@ var _ = Describe("Hostproxy controller", func() {
 
 		AfterEach(func() {
 			By("removing the custom resource for the Kind Hostproxy")
-			found := &crdsraw1zfrv1.Hostproxy{}
+			found := &networkingv1.Hostproxy{}
 			err := k8sClient.Get(ctx, typeNamespaceName, found)
 			Expect(err).To(Not(HaveOccurred()))
 
@@ -108,7 +108,7 @@ var _ = Describe("Hostproxy controller", func() {
 		It("should successfully reconcile a custom resource for Hostproxy", func() {
 			By("Checking if the custom resource was successfully created")
 			Eventually(func() error {
-				found := &crdsraw1zfrv1.Hostproxy{}
+				found := &networkingv1.Hostproxy{}
 				return k8sClient.Get(ctx, typeNamespaceName, found)
 			}, time.Minute, time.Second).Should(Succeed())
 
@@ -140,8 +140,7 @@ var _ = Describe("Hostproxy controller", func() {
 						Reason: "Reconciling",
 						Message: fmt.Sprintf(
 							"Deployment for custom resource (%s) with 1 replicas created successfully",
-							hostproxy.Name,
-						),
+							hostproxy.Name),
 					}
 					if latestStatusCondition != expectedLatestStatusCondition {
 						return fmt.Errorf("The latest status condition added to the Hostproxy instance is not as expected")

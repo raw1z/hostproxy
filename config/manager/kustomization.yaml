@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: localhost:5001/hostproxy
-  newTag: 1.0.1
+  newTag: 1.0.3

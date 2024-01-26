@@ -9,7 +9,7 @@ plugins:
   deploy-image.go.kubebuilder.io/v1-alpha:
     resources:
     - domain: raw1z.fr
-      group: crds.raw1z.fr
+      group: networking
       kind: Hostproxy
       options:
         image: qoomon/docker-host:3
@@ -22,7 +22,7 @@ resources:
     namespaced: true
   controller: true
   domain: raw1z.fr
-  group: crds.raw1z.fr
+  group: networking
   kind: Hostproxy
   path: github.com/raw1z/hostproxy/api/v1
   version: v1

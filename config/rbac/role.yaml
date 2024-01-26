@@ -43,7 +43,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - crds.raw1z.fr.raw1z.fr
+  - networking.raw1z.fr
   resources:
   - hostproxies
   verbs:
@@ -55,13 +55,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - crds.raw1z.fr.raw1z.fr
+  - networking.raw1z.fr
   resources:
   - hostproxies/finalizers
   verbs:
   - update
 - apiGroups:
-  - crds.raw1z.fr.raw1z.fr
+  - networking.raw1z.fr
   resources:
   - hostproxies/status
   verbs:

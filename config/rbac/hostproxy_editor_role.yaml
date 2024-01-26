@@ -12,7 +12,7 @@ metadata:
   name: hostproxy-editor-role
 rules:
 - apiGroups:
-  - crds.raw1z.fr.raw1z.fr
+  - networking.raw1z.fr
   resources:
   - hostproxies
   verbs:
@@ -24,7 +24,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - crds.raw1z.fr.raw1z.fr
+  - networking.raw1z.fr
   resources:
   - hostproxies/status
   verbs:

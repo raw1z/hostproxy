@@ -1,4 +1,4 @@
-apiVersion: crds.raw1z.fr.raw1z.fr/v1
+apiVersion: networking.raw1z.fr/v1
 kind: Hostproxy
 metadata:
   name: backend-db

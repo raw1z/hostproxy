@@ -36,10 +36,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	crdsraw1zfrv1 "github.com/raw1z/hostproxy/api/v1"
+	networkingv1 "github.com/raw1z/hostproxy/api/v1"
 )
 
-const hostproxyFinalizer = "crds.raw1z.fr.raw1z.fr/finalizer"
+const hostproxyFinalizer = "networking.raw1z.fr/finalizer"
 
 // Definitions to manage status conditions
 const (
@@ -60,9 +60,9 @@ type HostproxyReconciler struct {
 // when the command <make manifests> is executed.
 // To know more about markers see: https://book.kubebuilder.io/reference/markers.html
 
-//+kubebuilder:rbac:groups=crds.raw1z.fr.raw1z.fr,resources=hostproxies,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=crds.raw1z.fr.raw1z.fr,resources=hostproxies/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=crds.raw1z.fr.raw1z.fr,resources=hostproxies/finalizers,verbs=update
+//+kubebuilder:rbac:groups=networking.raw1z.fr,resources=hostproxies,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=networking.raw1z.fr,resources=hostproxies/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=networking.raw1z.fr,resources=hostproxies/finalizers,verbs=update
 //+kubebuilder:rbac:groups=core,resources=events,verbs=create;patch
 //+kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=core,resources=services,verbs=list;watch;get;patch;create;update
@@ -85,7 +85,7 @@ func (r *HostproxyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 	// Fetch the Hostproxy instance
 	// The purpose is check if the Custom Resource for the Kind Hostproxy
 	// is applied on the cluster if not we return nil to stop the reconciliation
-	hostproxy := &crdsraw1zfrv1.Hostproxy{}
+	hostproxy := &networkingv1.Hostproxy{}
 	err := r.Get(ctx, req.NamespacedName, hostproxy)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
@@ -324,7 +324,7 @@ func (r *HostproxyReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 }
 
 // finalizeHostproxy will perform the required operations before delete the CR.
-func (r *HostproxyReconciler) doFinalizerOperationsForHostproxy(cr *crdsraw1zfrv1.Hostproxy) {
+func (r *HostproxyReconciler) doFinalizerOperationsForHostproxy(cr *networkingv1.Hostproxy) {
 	// TODO(user): Add the cleanup steps that the operator
 	// needs to do before the CR can be deleted. Examples
 	// of finalizers include performing backups and deleting
@@ -345,7 +345,7 @@ func (r *HostproxyReconciler) doFinalizerOperationsForHostproxy(cr *crdsraw1zfrv
 
 // deploymentForHostproxy returns a Hostproxy Deployment object
 func (r *HostproxyReconciler) deploymentForHostproxy(
-	hostproxy *crdsraw1zfrv1.Hostproxy) (*appsv1.Deployment, error) {
+	hostproxy *networkingv1.Hostproxy) (*appsv1.Deployment, error) {
 	ls := labelsForHostproxy(hostproxy.Name)
 	replicas := int32(1)
 
@@ -407,7 +407,7 @@ func (r *HostproxyReconciler) deploymentForHostproxy(
 	return dep, nil
 }
 
-func (r *HostproxyReconciler) serviceForHostproxy(hostproxy *crdsraw1zfrv1.Hostproxy) (*corev1.Service, error) {
+func (r *HostproxyReconciler) serviceForHostproxy(hostproxy *networkingv1.Hostproxy) (*corev1.Service, error) {
 	ls := labelsForHostproxy(hostproxy.Name)
 	svc := &corev1.Service{
 		TypeMeta: metav1.TypeMeta{APIVersion: corev1.SchemeGroupVersion.String(), Kind: "Service"},
@@ -461,7 +461,7 @@ func imageForHostproxy() (string, error) {
 // desirable state on the cluster
 func (r *HostproxyReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&crdsraw1zfrv1.Hostproxy{}).
+		For(&networkingv1.Hostproxy{}).
 		Owns(&appsv1.Deployment{}).
 		Complete(r)
 }

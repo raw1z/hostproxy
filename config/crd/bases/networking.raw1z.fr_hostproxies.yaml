@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-  name: hostproxies.crds.raw1z.fr.raw1z.fr
+  name: hostproxies.networking.raw1z.fr
 spec:
-  group: crds.raw1z.fr.raw1z.fr
+  group: networking.raw1z.fr
   names:
     kind: Hostproxy
     listKind: HostproxyList
